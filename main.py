@@ -32,12 +32,15 @@ def start():
                 cursor.execute(get_user_sql)
                 register_result = cursor.fetchone()
                 print(register_result)
-                return print("Registering works")
-            pull_user_sql = "SELECT * FROM userinfo WHERE username = '{}'".format(username)
-            cursor.execute(pull_user_sql)
-            pull_result = cursor.fetchone()
-            print(pull_result)
-            return (print("Already existing works?"))
+                print("Registering works")
+                # return print("Registering works")
+
+            pull_the_load_sql = "SELECT username, userinfo.story_id, current_life, current_gold, questions.story_question_text, questions.answer_id, questions.answer_text FROM userinfo inner join questions on userinfo.story_id = questions.story_id where username ='{}'".format(username)
+            cursor.execute(pull_the_load_sql)
+            pull_the_load_result = cursor.fetchall()
+            print(pull_the_load_result)
+            print("It's good!")
+            # return (print("Already existing works?"))
     except Exception as e:
         print(repr(e))
 
