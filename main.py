@@ -1,6 +1,15 @@
 from bottle import route, run, template, static_file, request
 import random
 import json
+import pymysql
+
+
+connection = pymysql.connect(host = 'localhost',
+                             user = 'root',
+                             password = 'root',
+                             db = 'adventure',
+                             charset = 'utf8',
+                             cursorclass=pymysql.cursors.DictCursor)
 
 
 @route("/", method="GET")
@@ -10,28 +19,49 @@ def index():
 
 @route("/start", method="POST")
 def start():
-    username = request.POST.get("name")
-    current_adv_id = request.POST.get("adventure_id")
+    username = request.POST.get("user")
+    try:
+        with connection.cursor() as cursor:
+            sql = "SELECT username FROM userinfo WHERE username = '{}'".format(username)
+            cursor.execute(sql)
+            result = cursor.fetchone()
+            if not result:
+                resgister_sql = "INSERT INTO userinfo (username) VALUE ('{}')".format(username)
+                cursor.execute(resgister_sql)
+                get_user_sql = "SELECT * FROM userinfo WHERE username = '{}'".format(username)
+                cursor.execute(get_user_sql)
+                register_result = cursor.fetchone()
+                print(register_result)
+                return print("Registering works")
+            pull_user_sql = "SELECT * FROM userinfo WHERE username = '{}'".format(username)
+            cursor.execute(pull_user_sql)
+            pull_result = cursor.fetchone()
+            print(pull_result)
+            return (print("Already existing works?"))
+    except Exception as e:
+        print(repr(e))
+
+    # current_adv_id = request.POST.get("adventure_id")
 
 
-    user_id = 0 #todo check if exists and if not create it
-    current_story_id = 0 #todo change
-    next_steps_results = [
-        {"id": 1, "option_text": "I fight it"},
-        {"id": 2, "option_text": "I give him 10 coins"},
-        {"id": 3, "option_text": "I tell it that I just want to go home"},
-        {"id": 4, "option_text": "I run away quickly"}
-        ]
+    # user_id = 0 #todo check if exists and if not create it
+    # current_story_id = 0 #todo change
+    # next_steps_results = [
+    #     {"id": 1, "option_text": "I fight it"},
+    #     {"id": 2, "option_text": "I give him 10 coins"},
+    #     {"id": 3, "option_text": "I tell it that I just want to go home"},
+    #     {"id": 4, "option_text": "I run away quickly"}
+    #     ]
 
     #todo add the next step based on db
-    return json.dumps({"user": user_id,
-                       "adventure": current_adv_id,
-                       "current": current_story_id,
-                       "text": "You meet a mysterious creature in the woods, what do you do?",
-                       "image": "troll.png",
-                       "options": next_steps_results
-                       })
-
+    # return json.dumps({"user": user_id,
+    #                    "adventure": current_adv_id,
+    #                    "current": current_story_id,
+    #                    "text": "You meet a mysterious creature in the woods, what do you do?",
+    #                    "image": "troll.png",
+    #                    "options": next_steps_results
+    #                    })
+    #
 
 @route("/story", method="POST")
 def story():
@@ -73,4 +103,3 @@ def main():
 
 if __name__ == '__main__':
     main()
-

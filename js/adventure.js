@@ -82,12 +82,11 @@ Adventures.checkName = function(){
 
 
 Adventures.initAdventure = function(){
-
+  // $(".welcome").hide();
     $.ajax("/start",{
         type: "POST",
-        data: {"user":
-            $("#nameField").val(),
-            "adventure_id": $(this).val()
+        data: {"user": $("#nameField").val(),
+            // "adventure_id": $(this).val()
         },
         dataType: "json",
         contentType: "application/json",
@@ -117,4 +116,3 @@ Adventures.debugPrint = function (msg) {
 };
 
 Adventures.start();
-
