@@ -1,5 +1,4 @@
 from bottle import route, run, template, static_file, request
-import random
 import json
 import pymysql
 
@@ -49,7 +48,7 @@ def start():
                 {"id": 4, "option_text": "Break into a run. You've seen enough horror movies and late night TV to know that you shouldn't be alone with anyone in the woods.", "next_story_id": 3},
                 ]
                 print(story_info, next_steps_results)
-                
+
 
             # return (print("Already existing works?"))
     except Exception as e:
@@ -70,7 +69,7 @@ def story():
     next_story_id = request.POST.get("next") #this is what the user chose - use it!
     try:
         with connection.cursor() as cursor:
-            sql = "SELECT goes_to_story_id from questions where story_id = '{}'".format(next_story_id)
+            sql = "SELECT distinct goes_to_story_id from questions where goes_to_story_id = '{}'".format(next_story_id)
             cursor.execute(sql)
             next_story_id = cursor.fetchone()
             if next_story_id['goes_to_story_id'] == 1:
@@ -122,7 +121,7 @@ def story():
                 next_steps_result = [
                 {"id": 1, "option_text": "Hope! You move stealthily toward it.", "next_story_id": 8},
                 {"id": 2, "option_text": "Make a break for it! Someone in there might be able to help you!","next_story_id": 8},
-                {"id": 3, "option_text": "Try and go around, make sure you aren't being followed before you make another move.", "next_story_id": 8},
+                {"id": 3, "option_text": "Try and go around, make sure you aren't being followed befxxxxXx  ore you make another move.", "next_story_id": 8},
                 {"id": 4, "option_text": "Get far away from the house. Something tells you it isn't where you want to be.", "next_story_id": 8},
                 ]
             else:
