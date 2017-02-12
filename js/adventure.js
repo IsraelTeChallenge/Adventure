@@ -48,7 +48,7 @@ Adventures.write = function (message) {
     $(".situation-text").text(message["text"]).show();
     for(var i=0;i<message['options'].length;i++){
         var opt = $("#option_" + (i+1));
-        opt.text(message['options'][i]['option_text']);
+        opt.text(message['options'][i]['answer_text']);
         opt.prop("value", message['options'][i]['id']);
     }
     Adventures.setImage(message["image"]);

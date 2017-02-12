@@ -57,7 +57,9 @@ text-align:center;
 	display: block;
 }
 
-
+.btn{
+  white-space: normal;
+}
 
 
 .copyright{
