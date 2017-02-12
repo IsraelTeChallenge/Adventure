@@ -49,7 +49,7 @@ Adventures.write = function (message) {
     for(var i=0;i<message['options'].length;i++){
         var opt = $("#option_" + (i+1));
         opt.text(message['options'][i]['answer_text']);
-        opt.prop("value", message['options'][i]['id']);
+        opt.prop("value", message['options'][i]['goes_to_story_id']);
     }
     Adventures.setImage(message["image"]);
 };

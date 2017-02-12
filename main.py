@@ -42,11 +42,9 @@ def start():
             user_story_pull = cursor.fetchone()
             user_story_text = list(user_story_pull.values())
             print(user_story_text)
-            pull_story_questions_sql = "select answer_id, answer_text, goes_to_story_id from questions inner join userinfo on questions.story_id = userinfo.story_id where username = '{}'".format(username)
+            pull_story_questions_sql = "select answer_text, goes_to_story_id from questions inner join userinfo on questions.story_id = userinfo.story_id where username = '{}'".format(username)
             cursor.execute(pull_story_questions_sql)
             story_questions = cursor.fetchall()
-            story_questions_list = list(story_questions.values())
-            print(story_questions_list)
     except Exception as e:
         print(repr(e))
 
@@ -58,24 +56,33 @@ def start():
                        "options": story_questions
                        })
 
-# @route("/story", method="POST")
-# def story():
-#     username = request.POST.get("user")
-#     current_adv_id = request.POST.get("adventure")
-#     next_story_id = request.POST.get("next") #this is what the user chose - use it!
-    # try:
-    #     with connection.cursor() as cursor:
-    #
-    # except Exception as e:
-    #     print(repr(e))
+@route("/story", method="POST")
+def story():
+    username = request.POST.get("user")
+    current_adv_id = request.POST.get("adventure")
+    next_story_id = request.POST.get("next") #this is what the user chose - use it!
+    try:
+        with connection.cursor() as cursor:
+            get_next_story_sql = "select distinct story_question_text from questions where story_id = '{}'".format(next_story_id)
+            cursor.execute(get_next_story_sql)
+            next_story_pull = cursor.fetchone()
+            next_story_text = list(next_story_pull.values())
+            print(next_story_text)
+            pull_story_questions_sql = "select answer_text, goes_to_story_id from questions where story_id ='{}'".format(next_story_id)
+            cursor.execute(pull_story_questions_sql)
+            story_questions = cursor.fetchall()
+            update_user_story_sql = "update userinfo set story_id = '{}' where username = '{}'".format(next_story_id,username)
+            cursor.execute(update_user_story_sql)
+    except Exception as e:
+        print(repr(e))
 
     return json.dumps({"user": username,
-                       "text": story_text,
+                       "text": next_story_text,
                        "image": "shia lablood.gif",
-                       "options": next_steps_result,
-                       "next": next_story_id
+                       "options": story_questions
                        })
-
+# ,
+# "next": next_story_id
 
 @route('/js/<filename:re:.*\.js$>', method='GET')
 def javascripts(filename):
@@ -92,7 +99,7 @@ def images(filename):
     return static_file(filename, root='images')
 
 def main():
-    run(host='localhost', port=9000)
+    run(host='localhost', port=9001)
 
 if __name__ == '__main__':
     main()
