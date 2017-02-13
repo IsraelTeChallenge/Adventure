@@ -2,13 +2,21 @@ from bottle import route, run, template, static_file, request
 import json
 import pymysql
 
+#
+# connection = pymysql.connect(host = 'localhost',
+#                              user = 'root',
+#                              password = 'root',
+#                              db = 'adventure',
+#                              charset = 'utf8',
+#                              cursorclass=pymysql.cursors.DictCursor)
 
-connection = pymysql.connect(host = 'localhost',
-                             user = 'root',
-                             password = 'root',
-                             db = 'adventure',
-                             charset = 'utf8',
-                             cursorclass=pymysql.cursors.DictCursor)
+#database
+connection = pymysql.connect(host = 'sql9.freesqldatabase.com',
+                           user = 'sql9157879',
+                           password = '8HnCSPBpkI',
+                           db = 'sql9157879',
+                           charset = 'utf8',
+                           cursorclass=pymysql.cursors.DictCursor)
 
 
 @route("/", method="GET")
