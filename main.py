@@ -1,6 +1,7 @@
 from bottle import route, run, template, static_file, request
 import json
 import pymysql
+from sys import argv
 
 #
 # connection = pymysql.connect(host = 'localhost',
@@ -118,8 +119,11 @@ def stylesheets(filename):
 def images(filename):
     return static_file(filename, root='images')
 
+# def main():
+#     run(host='localhost', port=9001)
 def main():
-    run(host='localhost', port=9001)
+    run(host='0.0.0.0', port=argv[1])
+
 
 if __name__ == '__main__':
     main()
