@@ -2,7 +2,6 @@ var Adventures = {};
 //currentAdventure is used for the adventure we're currently on (id). This should be determined at the beginning of the program
 Adventures.currentAdventure = 0; //todo keep track from db
 //currentStep is used for the step we're currently on (id). This should be determined at every crossroad, depending on what the user chose
-Adventures.currentStep = 0;//todo keep track from db
 Adventures.currentUser = 0;//todo keep track from db
 
 
@@ -49,8 +48,8 @@ Adventures.write = function (message) {
     $(".situation-text").text(message["text"]).show();
     for(var i=0;i<message['options'].length;i++){
         var opt = $("#option_" + (i+1));
-        opt.text(message['options'][i]['option_text']);
-        opt.prop("value", message['options'][i]['id']);
+        opt.text(message['options'][i]['answer_text']);
+        opt.prop("value", message['options'][i]['goes_to_story_id']);
     }
     Adventures.setImage(message["image"]);
 };
@@ -82,12 +81,11 @@ Adventures.checkName = function(){
 
 
 Adventures.initAdventure = function(){
-
+  // $(".welcome").hide();
     $.ajax("/start",{
         type: "POST",
-        data: {"user":
-            $("#nameField").val(),
-            "adventure_id": $(this).val()
+        data: {
+          "user": $("#nameField").val(),
         },
         dataType: "json",
         contentType: "application/json",
@@ -117,4 +115,3 @@ Adventures.debugPrint = function (msg) {
 };
 
 Adventures.start();
-
