@@ -39,8 +39,14 @@ text-align:center;
     display: inline-block;
 }
 
+.situation-image {
+width: 80%;
+margin-top: 400px;
+}
 
-
+.adventure {
+  display: inline-table;
+}
 
 .option-select{
 	padding:5px 300px;

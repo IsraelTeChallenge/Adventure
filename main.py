@@ -45,6 +45,12 @@ def start():
             pull_story_questions_sql = "select answer_text, goes_to_story_id from questions inner join userinfo on questions.story_id = userinfo.story_id where username = '{}'".format(username)
             cursor.execute(pull_story_questions_sql)
             story_questions = cursor.fetchall()
+            pull_images_sql = "select distinct questions.image_used from questions inner join userinfo on questions.story_id = userinfo.story_id where username = '{}'".format(username)
+            cursor.execute(pull_images_sql)
+            image = cursor.fetchall()
+            #image_list = list(image.values())
+            print(image)
+            image_show = (image[0]['image_used'])
     except Exception as e:
         print(repr(e))
 
@@ -52,7 +58,7 @@ def start():
     #todo add the next step based on db
     return json.dumps({"user": username,
                        "text": user_story_text,
-                       "image": "shia lablood.gif",
+                       "image": image_show,
                        "options": story_questions
                        })
 
@@ -73,12 +79,18 @@ def story():
             story_questions = cursor.fetchall()
             update_user_story_sql = "update userinfo set story_id = '{}' where username = '{}'".format(next_story_id,username)
             cursor.execute(update_user_story_sql)
+            pull_images_sql = "select distinct image_used from questions where story_id = '{}'".format(next_story_id)
+            cursor.execute(pull_images_sql)
+            image = cursor.fetchall()
+            #image_list = list(image.values())
+            print(image)
+            image_show = (image[0]['image_used'])
     except Exception as e:
         print(repr(e))
 
     return json.dumps({"user": username,
                        "text": next_story_text,
-                       "image": "shia lablood.gif",
+                       "image": image_show,
                        "options": story_questions
                        })
 # ,
