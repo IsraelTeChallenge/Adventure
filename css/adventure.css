@@ -2,7 +2,8 @@
 body{
     background-image:url('../images/forest.jpg');
     font-family: 'Roboto', sans-serif;
-    overflow: hidden;
+    overflow-x: hidden;
+    overflow-y: auto;
 }
 
 .clickable{
@@ -16,7 +17,7 @@ body{
 .shadowed{
  -webkit-box-shadow: 3px 3px 23px 0px rgba(50, 50, 50, 0.75);
 	-moz-box-shadow:    3px 3px 23px 0px rgba(50, 50, 50, 0.75);
-		 box-shadow:         3px 3px 23px 0px rgba(50, 50, 50, 0.75);	
+		 box-shadow:         3px 3px 23px 0px rgba(50, 50, 50, 0.75);
 }
 .greeting-text{
 text-align:center;
@@ -38,8 +39,14 @@ text-align:center;
     display: inline-block;
 }
 
+.situation-image {
+width: 80%;
+margin-top: 400px;
+}
 
-
+.adventure {
+  display: inline-table;
+}
 
 .option-select{
 	padding:5px 300px;
@@ -56,7 +63,9 @@ text-align:center;
 	display: block;
 }
 
-
+.btn{
+  white-space: normal;
+}
 
 
 .copyright{
